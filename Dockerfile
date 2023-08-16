@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:4.0.1
+FROM jupyterhub/jupyterhub:4.0.2
 
 COPY jupyterhub_magpie_authenticator /jupyterhub_magpie_authenticator
 
