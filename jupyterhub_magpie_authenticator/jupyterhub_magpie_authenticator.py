@@ -24,6 +24,10 @@ class MagpieAuthenticator(Authenticator):
      - c.JupyterHub.authenticator_class = 'jupyterhub_magpie_authenticator.MagpieAuthenticator'
      - c.MagpieAuthenticator.magpie_url = "magpie:2000" # url where magpie is running (does not need to be public)
      - c.MagpieAuthenticator.public_fqdn = "www.example.com"  # fqdn of server where magpie is running
+
+    You may also optionally choose to set an `authorization_url` which is a URL that can be used to check whether the
+    user logged in to Magpie has permission to access jupyterhub:
+     - c.MagpieAuthenticator.authorization_url = "http://twitcher:8000/ows/verify/jupyterhub"
     """
     default_provider = "ziggurat"
     magpie_url = Unicode(
@@ -34,6 +38,12 @@ class MagpieAuthenticator(Authenticator):
     public_fqdn = Unicode(
         config=True,
         help="Public fully qualified domain name. Used to set the magpie login cookie."
+    )
+    authorization_url = Unicode(
+        default=None,
+        config=True,
+        help="optional URL that can be used to check whether the user logged in to Magpie has permission to access "
+             "jupyterhub"
     )
 
     def get_handlers(self, app):
@@ -52,6 +62,10 @@ class MagpieAuthenticator(Authenticator):
         response = requests.post(signin_url, data=post_data)
 
         if response.ok:
+            if self.authorization_url:
+                auth_response = requests.get(self.authorization_url, cookies=response.cookies.get_dict())
+                if not auth_response.ok:
+                    return None
             for cookie in response.cookies:
                 handler.set_cookie(name=cookie.name,
                                    value=cookie.value,
