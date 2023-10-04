@@ -82,7 +82,8 @@ class MagpieAuthenticator(Authenticator):
                                    secure=cookie.secure)
             if self.enable_auth_state:
                 return {"name": data['username'], "auth_state": {"magpie_cookies": response.cookies.get_dict()}}
-            return data['username']
+            else:
+                return data['username']
 
     async def refresh_user(self, user, handler=None):
         if not (self.authorization_url and self.enable_auth_state):
