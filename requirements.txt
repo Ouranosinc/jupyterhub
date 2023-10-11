@@ -1,0 +1,2 @@
+dockerspawner
+jupyterhub-idle-culler==1.2.1
