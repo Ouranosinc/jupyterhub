@@ -58,6 +58,16 @@ class MagpieAuthenticator(Authenticator):
             ('/logout', MagpieLogoutHandler)
         ]
 
+    def normalize_username(self, username):
+        """
+        Do not normalize username but still apply username_map if set.
+
+        This ensures that mounted directories on the host machine are discovered properly
+        since we expect the username to match the username set by Magpie.
+        """
+        username = self.username_map.get(username, username)
+        return username
+
     async def authenticate(self, handler, data):
         signin_url = self.magpie_url.rstrip('/') + '/signin'
 
