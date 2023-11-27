@@ -86,10 +86,11 @@ class MagpieAuthenticator(Authenticator):
                 return data['username']
 
     async def refresh_user(self, user, handler=None):
-        if not (self.authorization_url and self.enable_auth_state):
-            # MagpieAuthenticator is not configured to re-check user authorization
-            return True
         auth_state = await user.get_auth_state()
+        if auth_state is None:
+            # MagpieAuthenticator is not configured to re-check user authorization or the auth state
+            # has not been persisted to the database yet.
+            return True
         cookies = auth_state.get("magpie_cookies")
         if cookies:
             auth_response = requests.get(self.authorization_url, cookies=cookies)
