@@ -1,3 +1,4 @@
+import json
 from traitlets import Unicode
 from jupyterhub.auth import Authenticator
 from jupyterhub.handlers.login import LogoutHandler
@@ -32,6 +33,9 @@ class MagpieAuthenticator(Authenticator):
     If `authorization_url` is set, then setting `enable_auth_state` will enable jupyterhub to store the user's magpie
     cookies. This will allow the `refresh_user` method to periodically check whether the user is still authorized and
     will attempt to log them out of jupyterhub if not.
+    These cookie values will also be available in the spawned jupyterlab server by accessing the `MAGPIE_COOKIES`
+    environment variable. This variable will contain a JSON object where keys are the cookie names and values are the
+    cookie content.
 
     If `authorization_url` and `enable_auth_state` are set, then you may also be interested in setting the
     `refresh_pre_spawn` and `auth_refresh_age` variables. See the jupyterhub documentation for more details.
@@ -99,3 +103,11 @@ class MagpieAuthenticator(Authenticator):
         if handler:
             handler.clear_login_cookie()
         return False
+
+    async def pre_spawn_start(self, user, spawner):
+        auth_state = await user.get_auth_state()
+        if auth_state is None:
+            # MagpieAuthenticator is not configured to store user authorization data or the auth state
+            # has not been persisted to the database yet.
+            return True
+        spawner.environment["MAGPIE_COOKIES"] = json.dumps(auth_state.get("magpie_cookies"))
