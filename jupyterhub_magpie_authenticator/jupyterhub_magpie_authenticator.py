@@ -64,6 +64,7 @@ class MagpieAuthenticator(Authenticator):
 
     async def authenticate(self, handler, data):
         signin_url = self.magpie_url.rstrip('/') + '/signin'
+        userdata_url = self.magpie_url.rstrip('/') + '/users/current'
 
         post_data = {
             "user_name": data["username"],
@@ -77,6 +78,10 @@ class MagpieAuthenticator(Authenticator):
                 auth_response = requests.get(self.authorization_url, cookies=response.cookies.get_dict())
                 if not auth_response.ok:
                     return None
+            userdata_response = requests.get(userdata_url, cookies=response.cookies.get_dict())
+            if not userdata_response.ok:
+                return None
+            user_name = userdata_response.json()["user"]["user_name"]
             for cookie in response.cookies:
                 handler.set_cookie(name=cookie.name,
                                    value=cookie.value,
@@ -85,9 +90,9 @@ class MagpieAuthenticator(Authenticator):
                                    path=cookie.path,
                                    secure=cookie.secure)
             if self.enable_auth_state:
-                return {"name": data['username'], "auth_state": {"magpie_cookies": response.cookies.get_dict()}}
+                return {"name": user_name, "auth_state": {"magpie_cookies": response.cookies.get_dict()}}
             else:
-                return data['username']
+                return user_name
 
     async def refresh_user(self, user, handler=None):
         auth_state = await user.get_auth_state()
