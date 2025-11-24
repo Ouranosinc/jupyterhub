@@ -39,6 +39,9 @@ class MagpieAuthenticator(Authenticator):
 
     If `authorization_url` and `enable_auth_state` are set, then you may also be interested in setting the
     `refresh_pre_spawn` and `auth_refresh_age` variables. See the jupyterhub documentation for more details.
+
+    The `manage_groups` attribute tells Jupyterhub that the Authenticator can set group memberships based on 
+    the values returned by the `authenticate` method. This is True by default for this Authenticator.
     """
     default_provider = "ziggurat"
     magpie_url = Unicode(
@@ -56,6 +59,7 @@ class MagpieAuthenticator(Authenticator):
         help="optional URL that can be used to check whether the user logged in to Magpie has permission to access "
              "jupyterhub"
     )
+    manage_groups = True
 
     def get_handlers(self, app):
         return [
@@ -81,7 +85,9 @@ class MagpieAuthenticator(Authenticator):
             userdata_response = requests.get(userdata_url, cookies=response.cookies.get_dict())
             if not userdata_response.ok:
                 return None
-            user_name = userdata_response.json()["user"]["user_name"]
+            userdata = userdata_response.json()
+            user_name = userdata["user"]["user_name"]
+            groups = userdata["user"]["group_names"]
             for cookie in response.cookies:
                 handler.set_cookie(name=cookie.name,
                                    value=cookie.value,
@@ -90,9 +96,11 @@ class MagpieAuthenticator(Authenticator):
                                    path=cookie.path,
                                    secure=cookie.secure)
             if self.enable_auth_state:
-                return {"name": user_name, "auth_state": {"magpie_cookies": response.cookies.get_dict()}}
+                return {"name": user_name,
+                        "groups": groups,
+                        "auth_state": {"magpie_cookies": response.cookies.get_dict()}}
             else:
-                return user_name
+                return {"name": user_name, "groups": groups}
 
     async def refresh_user(self, user, handler=None):
         auth_state = await user.get_auth_state()
