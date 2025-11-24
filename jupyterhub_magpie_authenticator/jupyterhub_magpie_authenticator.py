@@ -39,6 +39,9 @@ class MagpieAuthenticator(Authenticator):
 
     If `authorization_url` and `enable_auth_state` are set, then you may also be interested in setting the
     `refresh_pre_spawn` and `auth_refresh_age` variables. See the jupyterhub documentation for more details.
+
+    The `manage_groups` attribute tells Jupyterhub that the Authenticator can set group memberships based on 
+    the values returned by the `authenticate` method. This is True by default for this Authenticator.
     """
     default_provider = "ziggurat"
     magpie_url = Unicode(
