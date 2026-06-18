@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:5.4.6
+FROM jupyterhub/jupyterhub:5.5.0
 
 RUN apt-get update \
  && apt-get install -yq --no-install-recommends \
