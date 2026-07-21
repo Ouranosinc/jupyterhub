@@ -14,3 +14,9 @@ serialize = ["{major}.{minor}.{patch}-{date}"]
 
 [tool.bumpversion.parts.date]
 calver_format = "{YYYY}{0M}{0D}"
+
+[[tool.bumpversion.files]]
+filename = 'Dockerfile'
+search = "LABEL org.opencontainers.image.created=\"\\d{{4}}-\\d{{2}}-\\d{{2}}\""
+replace = "LABEL org.opencontainers.image.created=\"{now:%Y-%m-%d}\""
+regex = true
