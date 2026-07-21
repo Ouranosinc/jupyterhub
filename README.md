@@ -6,11 +6,13 @@ Based on upstream
 with extra required packages, see
 [`Dockerfile`](https://github.com/Ouranosinc/jupyterhub/blob/master/Dockerfile)
 
-## Release instruction
+## Release instructions
 
-Add a tag and push, a new
-[`pavics/jupyterhub`](https://hub.docker.com/r/pavics/jupyterhub) image will be
-available with the same tag.
+1. Open a pull request to make desired Dockerfile configuration changes.
+1. Install `bump-my-version`: `$ pip install -r requirements.txt`.
+1. Run `$ bump-my-version {major | minor | patch}`
+    * Be sure to match the `jupyterhub/jupyterhub` version in the tag so we know what version our image is based on.
+1. Merge the Pull Request to the `master` branch and switch to `master` branch.
+1. Create a tag matching the new version string (`{jupyterhub/jupyterhub version}-{YYYY}{0M}{0D}`) and push to the repository.
 
-Keep the same original upstream `jupyterhub/jupyterhub` version in the tag so
-we know what version our image is based on.
+A new [`pavics/jupyterhub`](https://hub.docker.com/r/pavics/jupyterhub) image will be built on GitHub Workflows and pushed to Docker Hub.
