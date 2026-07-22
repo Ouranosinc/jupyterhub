@@ -1,4 +1,4 @@
-name: Docker-based Testing Suite
+name: Docker Hub Publishing
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 env:
   TEST_TAG: pavics/jupyterhub:test
   LATEST_TAG: pavics/jupyterhub:latest
-  RELEASE_TAF: pavics/jupyterhub:${{ github.ref_name }}
+  RELEASE_TAG: pavics/jupyterhub:${{ github.ref_name }}
 
 jobs:
   build:
