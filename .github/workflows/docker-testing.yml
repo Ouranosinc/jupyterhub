@@ -43,6 +43,6 @@ jobs:
 
       - name: Run Docker image
         run: |
-          docker run -p 5000:5000 ${{ env.TEST_TAG }} sh -c '
+          docker run ${{ env.TEST_TAG }} sh -c '
           python -c "import dockerspawner; print(dockerspawner.__version__)"
           '

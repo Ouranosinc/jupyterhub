@@ -9,7 +9,6 @@ permissions:
   contents: read
 
 env:
-  TEST_TAG: pavics/jupyterhub:test
   LATEST_TAG: pavics/jupyterhub:latest
   RELEASE_TAG: pavics/jupyterhub:${{ github.ref_name }}
 

@@ -15,7 +15,6 @@ with extra required packages, see
     * If changes do not modify the `jupyterhub/jupyterhub` image, one can simply run `$ bump-my-version bump date`.
     * For multiple releases on the same date, one can simply run `$ bump-my-version bump build`.
 1. If the last bump was not a `build` bump, run `$ bump-my-version bump release`.
-1. Merge the Pull Request to the `master` branch and switch to `master` branch.
-1. Create a tag matching the new version string (`{jupyterhub/jupyterhub version}-{YYYY}{0M}{0D}`) and push to the repository.
+1. Merge the Pull Request to the `master` branch.
 
-A new [`pavics/jupyterhub`](https://hub.docker.com/r/pavics/jupyterhub) image will be built on GitHub Workflows and pushed to Docker Hub.
+Once merged to `master`, GitHub Workflows will automatically tag a new version, build a Docker image, and push the image to Docker Hub ([`pavics/jupyterhub`](https://hub.docker.com/r/pavics/jupyterhub)).
