@@ -1,9 +1,9 @@
 FROM jupyterhub/jupyterhub:5.5.0
 ARG DEBIAN_FRONTEND=noninteractive
 LABEL org.opencontainers.image.authors="Ouranosinc"
-LABEL org.opencontainers.image.created="2026-07-10"
+LABEL org.opencontainers.image.created="2026-07-23T15:44:02Z"
 LABEL org.opencontainers.image.source="https://github.com/Ouranosinc/jupyterhub"
-LABEL org.opencontainers.image.version="5.5.0-20260710"
+LABEL org.opencontainers.image.version="5.5.0-20260723"
 LABEL Description="JupyterHub"
 
 RUN apt-get update \
