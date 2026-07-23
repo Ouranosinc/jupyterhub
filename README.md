@@ -14,7 +14,6 @@ with extra required packages, see
     * Be sure to match the same original upstream `jupyterhub/jupyterhub` version in the tag so we know what version our image is based on.
     * If changes do not modify the `jupyterhub/jupyterhub` image, one can simply run `$ bump-my-version bump date`.
     * For multiple releases on the same date, one can simply run `$ bump-my-version bump build`.
-1. If the last bump was not a `build` bump, run `$ bump-my-version bump release`.
 1. Merge the Pull Request to the `master` branch.
 
 Once merged to `master`, GitHub Workflows will automatically tag a new version, build a Docker image, and push the image to Docker Hub ([`pavics/jupyterhub`](https://hub.docker.com/r/pavics/jupyterhub)).

@@ -5,14 +5,14 @@ parse = """(?x)
     (?P<minor>\\d+)\\.
     (?P<patch>\\d+)\\-
     (?P<date>\\d{4}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01]))
-    (\\-(?P<release>[a-z]+)(\\.(?P<build>\\d+)))?
+    (?:\\.(?P<build>\\d+))?
 """
 allow_dirty = true
 commit = false
 tag = false
 message = "Bump version: {current_version} → {new_version}"
 serialize = [
-    "{major}.{minor}.{patch}-{date}-{release}.{build}",
+    "{major}.{minor}.{patch}-{date}.{build}",
     "{major}.{minor}.{patch}-{date}"
 ]
 
@@ -21,13 +21,6 @@ calver_format = "{YYYY}{0M}{0D}"
 
 [tool.bumpversion.parts.build]
 independent = false
-
-[tool.bumpversion.parts.release]
-optional_value = "release"
-values = [
-  "dev",
-  "release"
-]
 
 [[tool.bumpversion.files]]
 filename = 'Dockerfile'
