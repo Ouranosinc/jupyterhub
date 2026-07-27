@@ -9,7 +9,7 @@ with extra required packages, see
 ## Release instructions
 
 1. Open a pull request to make desired Dockerfile configuration changes.
-1. Install `bump-my-version`: `$ pip install -r requirements.txt`.
+1. Install `bump-my-version`: `$ pip install -r .github/requirements.txt`.
 1. Run `$ bump-my-version {major | minor | patch | date | build}`.
     * Be sure to match the same original upstream `jupyterhub/jupyterhub` version in the tag so we know what version our image is based on.
     * If changes do not modify the `jupyterhub/jupyterhub` image, one can simply run `$ bump-my-version bump date`.
