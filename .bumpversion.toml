@@ -1,0 +1,46 @@
+[tool.bumpversion]
+current_version = "5.5.0-20260728"
+parse = """(?x)
+    (?P<major>\\d+)\\.
+    (?P<minor>\\d+)\\.
+    (?P<patch>\\d+)\\-
+    (?P<date>\\d{4}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01]))
+    (?:\\.(?P<build>\\d+))?
+"""
+allow_dirty = false
+commit = true
+tag = false
+message = "Bump version: {current_version} → {new_version}"
+serialize = [
+    "{major}.{minor}.{patch}-{date}.{build}",
+    "{major}.{minor}.{patch}-{date}"
+]
+
+[tool.bumpversion.parts.date]
+calver_format = "{YYYY}{0M}{0D}"
+
+[tool.bumpversion.parts.build]
+independent = false
+
+[[tool.bumpversion.files]]
+filename = 'Dockerfile'
+search = "LABEL org.opencontainers.image.version=\"{current_version}\""
+replace = "LABEL org.opencontainers.image.version=\"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = 'Dockerfile'
+search = "LABEL org.opencontainers.image.created=\"\\d{{4}}-\\d{{2}}-\\d{{2}}T\\d{{2}}:\\d{{2}}:\\d{{2}}Z\""
+replace = "LABEL org.opencontainers.image.created=\"{utcnow:%Y-%m-%dT%H:%M:%SZ}\""
+regex = true
+
+[[tool.bumpversion.files]]
+filename = "RELEASE.txt"
+part = "version"
+search = "{current_version}"
+replace = "{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "RELEASE.txt"
+search = "\\d{{4}}-\\d{{2}}-\\d{{2}}T\\d{{2}}:\\d{{2}}:\\d{{2}}Z"
+replace = "{utcnow:%Y-%m-%dT%H:%M:%SZ}"
+regex = true
