@@ -7,8 +7,8 @@ parse = """(?x)
     (?P<date>\\d{4}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01]))
     (?:\\.(?P<build>\\d+))?
 """
-allow_dirty = true
-commit = false
+allow_dirty = false
+commit = true
 tag = false
 message = "Bump version: {current_version} → {new_version}"
 serialize = [
