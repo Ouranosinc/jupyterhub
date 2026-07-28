@@ -15,6 +15,7 @@ env:
 jobs:
   build:
     name: Build and publish image on Docker Hub
+    if: github.event.base_ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Harden Runner
