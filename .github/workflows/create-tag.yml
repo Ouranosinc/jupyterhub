@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   tag:
-    name: Tag New Version 
+    name: Tag New Version
     runs-on: ubuntu-latest
     permissions:
       contents: write
