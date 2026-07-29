@@ -24,3 +24,14 @@ updates:
           - "requirements.*"
     cooldown:
       default-days: 7
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: "monthly"
+    groups:
+      docker:
+        patterns:
+          - "Dockerfile"
+    cooldown:
+      default-days: 7
