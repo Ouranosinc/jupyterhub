@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:5.5.0
+FROM jupyterhub/jupyterhub:5.5.1
 ARG DEBIAN_FRONTEND=noninteractive
 LABEL org.opencontainers.image.authors="Ouranosinc"
 LABEL org.opencontainers.image.created="2026-07-30T20:37:38Z"
