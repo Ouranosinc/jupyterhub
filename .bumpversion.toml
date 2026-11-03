@@ -1,5 +1,5 @@
 [tool.bumpversion]
-current_version = "5.5.1-20260901"
+current_version = "6.1.1-20261103"
 parse = """(?x)
     (?P<major>\\d+)\\.
     (?P<minor>\\d+)\\.
@@ -18,9 +18,16 @@ serialize = [
 
 [tool.bumpversion.parts.date]
 calver_format = "{YYYY}{0M}{0D}"
+always_increment = false
 
 [tool.bumpversion.parts.build]
 independent = false
+
+[[tool.bumpversion.files]]
+filename = 'Dockerfile'
+search = "FROM jupyterhub/jupyterhub:\\d+\\.\\d+\\.\\d+(-\\d+)?"
+replace = "FROM jupyterhub/jupyterhub:{new_major}.{new_minor}.{new_patch}"
+regex = true
 
 [[tool.bumpversion.files]]
 filename = 'Dockerfile'
