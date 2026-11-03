@@ -24,6 +24,12 @@ independent = false
 
 [[tool.bumpversion.files]]
 filename = 'Dockerfile'
+search = "FROM jupyterhub/jupyterhub:\\d+\\.\\d+\\.\\d+(-\\d+)?"
+replace = "FROM jupyterhub/jupyterhub:{new_major}.{new_minor}.{new_patch}"
+regex = true
+
+[[tool.bumpversion.files]]
+filename = 'Dockerfile'
 search = "LABEL org.opencontainers.image.version=\"{current_version}\""
 replace = "LABEL org.opencontainers.image.version=\"{new_version}\""
 
