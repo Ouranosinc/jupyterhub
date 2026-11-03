@@ -18,6 +18,7 @@ serialize = [
 
 [tool.bumpversion.parts.date]
 calver_format = "{YYYY}{0M}{0D}"
+always_increment = false
 
 [tool.bumpversion.parts.build]
 independent = false
